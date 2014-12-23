@@ -17,4 +17,4 @@ unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha --recursive -R xunit > results.xml --timeout 3000
 
 
-.PHONY: test tap unit jshint skel
+.PHONY: test tap unit jshint

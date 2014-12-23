@@ -38,6 +38,24 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+
+    // compile templates
+    var compile = require('./compile');
+    var templateDir= __dirname + '/templates/';
+    var outPutFile = __dirname + '/public/js/templates.js';
+    var fs = require('fs');
+    fs.watch(templateDir, function() {
+        compile.compile(templateDir, function(err, js) {
+            if (err) console.log("ERROR in template compilation", err)
+            else {
+                fs.writeFile(outPutFile, js, function(err) {
+                    if (err)
+                        console.log(err);
+                });
+            }
+        })
+    });
+
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
