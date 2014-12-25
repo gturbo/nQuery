@@ -1,47 +1,53 @@
 /**
  * Created by ga on 20/12/14.
  */
-var templates = window.templates;
-var Backbone = window.Backbone, Marionette = Backbone.Marionette;
-Marionette.Renderer.render = function (template, data) {
-    return templates[template](data);
-};
-var Database = Backbone.Model.extend({});
-var Databases = Backbone.Collection.extend({
-    model: Database
-});
-var databases = new Databases();
-//databases.fetch();
-var app = new Marionette.Application({databases: databases});
 
-app.addRegions({
-    body: 'body',
-    menu: '#menu',
-    content: '#content',
-    footer: '#footer'
-});
+var __loadScripts, __loaded = {};
+var nQ = window.nQ = {
+    layout: {},
+    data: {},
+    loadJavaScript: function (file, onComplete) {
+        if (__loaded[file]) {
+            console.log('skip loading already loaded script ' + file);
+            return;
+        }
+        var d = document, t = 'script',
+            o = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+        __loaded[file] = {pending: 1, el: o};
+        o.src = file;
+        o.addEventListener('load', function (e) {
+            delete __loaded[file].pending;
+            if (onComplete) {
+                onComplete(null, e);
+            }
+        }, false);
+        s.parentNode.insertBefore(o, s);
+    },
 
-var DatabaseView = Marionette.ItemView.extend({
-    tagName: 'tr',
-    template: 'database_table',
-    className: 'databaseTable'
-});
+    removeJavaScript: function (file) {
+        var meta = __loaded[file];
+        if (meta) {
+            var s = meta.el;
+            delete __loaded[file];
+            document.removeChild(s);
+        }
+    },
 
-var DbView = Marionette.CollectionView.extend({
-        tagName: 'div',
-        template: 'databases_table',
-        childView: DatabaseView
-    }),
-    dbView = new DbView({
-        collection: databases
-    });
-app.addInitializer(function (options) {
-    app.content.show(dbView);
-});
-app.start();
+    loadScripts: function (scripts, done) {
+        if (scripts.length) {
+            var script = scripts.shift(), _scripts = scripts;
+            nQ.loadJavaScript(script, function () {
+                __loadScripts(_scripts, done);
+            });
+            return;
+        }
+        done && done();
+    }
+}
+__loadScripts = nQ.loadScripts;
 
-for (var i = 0; i < 10; i++)
-    databases.add({name: "fake database " + i});
+nQ.loadScripts(['js/jquery.js', 'js/underscore.js', 'js/backbone.js', 'js/backbone.marionette.js', 'js/templates.js', 'js/main.app.js', 'bootstrap/dist/js/bootstrap.js']);
 
 console.log("done start");
 

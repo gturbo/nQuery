@@ -51,6 +51,8 @@ if (app.get('env') === 'development') {
                 fs.writeFile(outPutFile, js, function(err) {
                     if (err)
                         console.log(err);
+                    else
+                        console.log(new Date(), " template.js refreshed");
                 });
             }
         })

@@ -18,14 +18,19 @@
         key = file.substr(0, file.length - 5);
         filePath = templatesDir + file;
         fs.readFile(filePath, function(err, src) {
-          js += "templates." + key + " = " + jade.compileClient(src, {
-            debug: true
-          }) + "; \n\n";
-          doneCompile(err);
+          try {
+            js += "templates." + key + " = " + jade.compileClient(src, {
+              debug: true
+            }) + "; \n\n";
+          } catch (e) {
+            console.log("error processing template ", file, " error:", e);
+          } finally {
+            doneCompile(err);
+          }
         });
       };
       async.each(jadeFiles, compileTmpl, function(err) {
-        console.log(js);
+        //console.log(js);
         done(err, js);
       });
     });
