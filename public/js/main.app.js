@@ -26,7 +26,7 @@ var appRouter = new Backbone.Router({
 });
 
 appRouter.on('route:getDatabase', function (id) {
-    alert("Get database number " + id);
+    $('#footer').html('<b>Get database number ' + id + '</b>');
 });
 appRouter.on('route:showDatabase', function () {
     app.body.show(nQ.layout.database);
@@ -34,7 +34,7 @@ appRouter.on('route:showDatabase', function () {
         nQ.data.databases.add({name: "after app start database " + i});
 });
 appRouter.on('route:home', function (hash) {
-    alert(hash);
+    $('#footer').html('<b>undefined route ' + hash + '</b>');
 });
 // Start Backbone history a necessary step for bookmarkable URL's
 Backbone.history.start({silent:true});
