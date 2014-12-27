@@ -11,4 +11,4 @@ var _nextId = Date.now();
 db.getId = function () {
     return _nextId++;
 };
-exports = db;
+module.exports = db;

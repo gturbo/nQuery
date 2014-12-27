@@ -16,7 +16,7 @@ describe('test crud persistence', function () {
             .expect(200)
             .expect('LastInsertId', /^\d+$/)
             .expect(function(res) {
-                id = res.getHeader('LastInsertId');
+                id = res.get('LastInsertId');
             })
             .end(done);
     });
@@ -25,9 +25,23 @@ describe('test crud persistence', function () {
             .get('/db/test/' + id)
             .expect(200)
             .expect(function(res) {
-                var obj = JSON.parse(res.body);
-                assert()
+                console.log('response:', JSON.stringify(res));
+                var obj = JSON.parse(res.text);
+                var ok = (obj.name == 'titi');
+                return !ok;
             })
             .end(done);
     });
+    it('should be deletable', function(done) {
+        request(app)
+            .delete('/db/test/' + id)
+            .expect(200)
+            .end(done);
+    });
+    it('should not be avail, able once deleted', function(done) {
+        request(app)
+            .get('/db/test/' + id)
+            .expect(404)
+            .end(done);
+    })
 })
