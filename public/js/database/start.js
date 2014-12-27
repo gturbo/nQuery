@@ -1,8 +1,8 @@
 var nQ= window.nQ;
-nQ.loadScripts(['js/models/database.js', 'js/views/database.js'], function(){
+nQ.loadScripts(['js/database/models.js', 'js/database/views.js', 'js/database/router.js'], function(){
     var databases = nQ.data.databases = new nQ.Databases();
 //databases.fetch();
-
+    var router = nQ.app.router.subRouters['database'] = new nQ.DatabaseRouter();
    var databasesView = new nQ.DatabasesView({
         collection: databases
     });

@@ -14,30 +14,9 @@ app.addRegions({
     body: 'body'
 });
 app.start();
+var router = app.router = new nQ.Router();
 
-
-
-var appRouter = new Backbone.Router({
-    routes: {
-        "database/:id": "getDatabase",
-        "database" : "showDatabase",
-        ":hash": "home"
-    }
-});
-
-appRouter.on('route:getDatabase', function (id) {
-    $('#footer').html('<b>Get database number ' + id + '</b>');
-});
-appRouter.on('route:showDatabase', function () {
-    app.body.show(nQ.layout.database);
-    for (var i = 11; i < 20; i++)
-        nQ.data.databases.add({name: "after app start database " + i});
-});
-appRouter.on('route:home', function (hash) {
-    $('#footer').html('<b>undefined route ' + hash + '</b>');
-});
 // Start Backbone history a necessary step for bookmarkable URL's
-Backbone.history.start({silent:true});
-nQ.loadScripts(['js/modules/database.js'], function() {
-    console.log('database module loaded');
-});
+Backbone.history.start();
+// start init module
+location.hash='database';

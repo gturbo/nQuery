@@ -1,8 +1,5 @@
-var express = require('express');
 var request = require('supertest');
-var port = 0; //express.settings.port;
 var app = require('../app.js');
-var url = "http://localhost" + port ? ':' + port : '';
 
 
 describe('test home page generation', function () {
