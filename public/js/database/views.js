@@ -1,8 +1,8 @@
 var nQ= window.nQ;
 nQ.DatabaseView = Marionette.ItemView.extend({
-    tagName: 'tr',
+    tagName: 'div',
     template: 'database_table',
-    className: 'databaseTable',
+    className: 'row',
     events: {
         'click': 'clicked'
     },
@@ -14,6 +14,6 @@ nQ.DatabaseView = Marionette.ItemView.extend({
 nQ.DatabasesView = Marionette.CompositeView.extend({
     tagName: 'div',
     template: 'databases_table',
-    childViewContainer: "tbody",
+    childViewContainer: '#datalist',
     childView: nQ.DatabaseView
 });

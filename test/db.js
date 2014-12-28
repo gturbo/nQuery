@@ -1,47 +1,44 @@
-var request = require('supertest');
-var app = require('../app.js');
-
-
-describe('test crud persistence', function () {
-    var id=1;
-    it('should be empty', function(done) {
-       request(app)
-           .get('/db/test/' + id)
-           .expect(404)
-           .end(done);
+process.env.NODE_APP_INSTANCE = 'test';
+var os = require('os');
+describe('test database functions', function () {
+    var db = require('../database');
+    it('should be a test database in temp dir', function (done) {
+        var err;
+        if (db.location.indexOf(os.tmpdir()))
+            err = new Error('using not temporary database for tests');
+        //console.log(db);
+        done(err);
     });
-    it('should store an object', function (done) {
-        request(app)
-            .post("/db/test").send({name:'titi'})
-            .expect(200)
-            .expect('LastInsertId', /^\d+$/)
-            .expect(function(res) {
-                id = res.get('LastInsertId');
+    it('should delete all database', function (done) {
+        var key = db.getKey('a', 'fakekey');
+        db.put(key, 'toto', function () {
+            db.deleteAll(null, function () {
+                db.get(key, function (err, val) {
+                    if (err.notFound)
+                        done();
+                    else {
+                        if (!err)
+                            err = new Error('key a:fakekey not deleted');
+                        done(err);
+                    }
+                })
             })
-            .end(done);
+        })
     });
-    it('should not be empty any more', function(done) {
-        request(app)
-            .get('/db/test/' + id)
-            .expect(200)
-            .expect(function(res) {
-                console.log('response:', JSON.stringify(res));
-                var obj = JSON.parse(res.text);
-                var ok = (obj.name == 'titi');
-                return !ok;
+    it('should delete all keys from type', function (done) {
+        var key = db.getKey('a', 'fakekey');
+        db.put(key, 'toto', function () {
+            db.deleteAll('a', function () {
+                db.get(key, function (err, val) {
+                    if (err.notFound)
+                        done();
+                    else {
+                        if (!err)
+                            err = new Error('key a:fakekey not deleted');
+                        done(err);
+                    }
+                })
             })
-            .end(done);
+        })
     });
-    it('should be deletable', function(done) {
-        request(app)
-            .delete('/db/test/' + id)
-            .expect(200)
-            .end(done);
-    });
-    it('should not be avail, able once deleted', function(done) {
-        request(app)
-            .get('/db/test/' + id)
-            .expect(404)
-            .end(done);
-    })
-})
+});

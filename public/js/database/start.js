@@ -9,7 +9,7 @@ nQ.loadScripts(['js/database/models.js', 'js/database/views.js', 'js/database/ro
 
     var DatabaseLayout = Marionette.LayoutView.extend({
         onShow: function() {
-            this.content.show(databasesView);
+            this.dbList.show(databasesView);
         }
     });
 
@@ -19,7 +19,8 @@ nQ.loadScripts(['js/database/models.js', 'js/database/views.js', 'js/database/ro
 
     layout.addRegions({
         menu: '#menu',
-        content: '#content',
+        dbList: '#db-list',
+        dbDetail: '#db-detail',
         footer: '#footer'
     });
 

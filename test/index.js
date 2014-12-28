@@ -1,3 +1,4 @@
+process.env.NODE_APP_INSTANCE = 'test';
 var request = require('supertest');
 var app = require('../app.js');
 
