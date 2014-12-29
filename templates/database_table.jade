@@ -1,7 +1,11 @@
-h3(class='col-xs-8') !{name}
-button(class='btn btn-primary col-xs-2')
-    i(class='glyphicon glyphicon-edit glyphicon-white')
-    |  edit
-button(class='btn btn-danger col-xs-2')
-    i(class='glyphicon glyphicon-trash')
-    |  delete
+h3(class='col-xs-7') !{name}
+.col-xs-5
+    .btn-group(class='pull-right')
+        button(class='btn btn-primary')
+            i(class='glyphicon glyphicon-edit glyphicon-white')
+            span(class="hidden-xs")
+                |  edit
+        button(class='btn btn-danger')
+            i(class='glyphicon glyphicon-trash')
+            span(class="hidden-xs")
+                |  delete

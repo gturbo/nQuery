@@ -30,3 +30,6 @@ node_modules
 *.iml
 bin/
 templates.js
+bootstrap.css
+stylesheets/
+public/bootstrap/

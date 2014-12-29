@@ -1,4 +1,10 @@
 var nQ= window.nQ;
+nQ.DatabaseLayout = Marionette.LayoutView.extend({
+    onShow: function() {
+        this.dbList.show(this.options.databasesView);
+    }
+});
+
 nQ.DatabaseView = Marionette.ItemView.extend({
     tagName: 'div',
     template: 'database_table',

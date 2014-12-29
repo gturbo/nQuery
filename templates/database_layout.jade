@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-nav(class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu")
+header(class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu")
     .container
         .navbar-header
             button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
@@ -23,8 +23,14 @@ nav(class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu")
                         li(class="dropdown-header") Nav header
                         li: a(href="#") Action4
                         li: a(href="#") Action5
-.row
-    #db-list(class="col-xs-6")
-    #detail(class="col-xs-6")
+.container-fluid
+    .row
+        #db-list(class="col-xs-6")
+        div(class="panel panel-default col-xs-6")
+            div(class="panel-heading text-center")
+                button(class='h3 btn-primary')
+                    i(class='glyphicon glyphicon-plus')
+                    span  ADD DATABASE
+            #detail(class='panel-body list-container')
 #footer
    p my footer

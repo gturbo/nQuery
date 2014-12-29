@@ -7,14 +7,10 @@ nQ.loadScripts(['js/database/models.js', 'js/database/views.js', 'js/database/ro
         collection: databases
     });
 
-    var DatabaseLayout = Marionette.LayoutView.extend({
-        onShow: function() {
-            this.dbList.show(databasesView);
-        }
-    });
 
-    var layout = nQ.layout.database = new DatabaseLayout({
-        template: 'database_layout'
+    var layout = nQ.layout.database = new nQ.DatabaseLayout({
+        template: 'database_layout',
+        databasesView: databasesView
     });
 
     layout.addRegions({
