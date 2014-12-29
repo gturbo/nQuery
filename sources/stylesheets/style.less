@@ -14,13 +14,18 @@ a {
   margin: 16px 20px 5px 20px;
 }
 
-.list-container .row {
-  &:hover { background-color: @panel-default-heading-bg}
-  h3,h4,div {
-    padding: 0px @padding-base-horizontal;
-    line-height: @line-height-base;
-    margin: 0;
-    //.vertical-align();
+.list-container {
+  .row.active, .row.active:hover {
+    background-color: rgb(172, 172, 205);
+  }
+  .row {
+    &:hover { background-color: @panel-default-heading-bg}
+    h3,h4,div {
+      padding: 0px @padding-base-horizontal;
+      line-height: @line-height-base;
+      margin: 0;
+      //.vertical-align();
+    }
   }
 }
 

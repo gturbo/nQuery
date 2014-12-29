@@ -19,7 +19,7 @@ router.get('/:type', function(req,res) {
             res.write(',' + data);
         }
     }).on('end', function() {
-        res.end(']');
+        res.end(start ? '[]' : ']');
     }).on('error', function(err) {
         console.log('error when retrieving collection ' + type + ' ' + err);
     })

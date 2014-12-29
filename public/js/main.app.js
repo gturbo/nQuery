@@ -13,6 +13,8 @@ var app = nQ.app = new Marionette.Application({});
 app.addRegions({
     body: 'body'
 });
+var globalCh = Backbone.Wreqr.radio.channel('global');
+var vent = globalCh.vent;
 app.start();
 var router = app.router = new nQ.Router();
 
