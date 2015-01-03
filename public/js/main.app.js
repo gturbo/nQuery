@@ -21,4 +21,5 @@ var router = app.router = new nQ.Router();
 // Start Backbone history a necessary step for bookmarkable URL's
 Backbone.history.start();
 // start init module
-location.hash='database';
+if (location.hash.match(/^[/]?$/))
+    location.hash='database';

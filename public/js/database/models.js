@@ -1,5 +1,5 @@
 var nQ= window.nQ;
-nQ.Database = Backbone.Model.extend({
+nQ.Database = nQ.MetaModel.extend({
     defaults: {dbType: 'monetdb'},
     type: 'database'
 });

@@ -44,13 +44,16 @@ router.get('/:type/:id', function (req, res) {
 });
 
 // update existing element (an id must be provided inside PUT body object)
-router.put('/:type', function (req, res) {
-    var type = req.param('type'), body = req.body;
+router.put('/:type/:id?', function (req, res) {
+    var type = req.param('type'), id = req.param('id'), body = req.body;
     if (!(type && body === Object(body))) {
         res.status(400).send('unable to store object for unknown type:' + type + ' or invalid content: ', body);
         return;
     }
-    var id = body.id;
+    if (id)
+        body.id = id;
+    else
+        id = body.id;
     if (!id) {
         res.status(400).send('unable to store ' + type + ' object for wrong id:' + id);
         return;
@@ -59,7 +62,7 @@ router.put('/:type', function (req, res) {
         if (err)
             res.status(500).send('unable to save object for type:' + type + ' and id: ' + id);
         else
-            res.send();
+            res.send('0');
     });
 });
 
@@ -79,20 +82,23 @@ router.post('/:type', function (req, res) {
         if (err)
             res.status(500).send('unable to save object for type:' + type + ' and id: ' + id);
         else
-            res.send(hasId ? '' : '{"id":"' + id + '"}'); // return added property for backbone model
+            res.send(hasId ? '0' : '{"id":"' + id + '"}'); // return added property for backbone model
     });
 });
 // deletes an element
-router.delete('/:type/:id', function (req, res) {
+router.delete('/:type/:id?', function (req, res) {
     var type = req.param('type'), id = req.param('id');
+    console.log(req.body);
+    if (!id) id = req.body.id;
+    console.log('delete ',type,':', id);
     if (!(type && id))
-        res.status(404).send('unable to delete object for type:' + type + ' and id: ', id);
+        res.status(404).send('unable to delete object for type:' + type + ' and id: ' + id);
     else {
         db.del(db.getKey(type, id), function (err, obj) {
             if (err)
-                res.status(404).send('unable to delete object for type:' + type + ' and id: ', id);
+                res.status(404).send('unable to delete object for type:' + type + ' and id: ' + id);
             else
-                res.send();
+                res.send('0');
         });
     }
 });

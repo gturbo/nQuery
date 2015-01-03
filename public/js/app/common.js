@@ -90,5 +90,5 @@ nQ.SubRouter = Backbone.Router.extend({
 });
 
 nQ.MetaModel = Backbone.Model.extend({
-  url: function() {return '/db/' + this.type;}
+    urlRoot: function() {return '/db/' + this.type;}
 });

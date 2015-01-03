@@ -47,7 +47,7 @@ var nQ = window.nQ = {
 }
 __loadScripts = nQ.loadScripts;
 
-nQ.loadScripts(['js/jquery.js', 'js/underscore.js', 'js/backbone.js', 'js/backbone.marionette.js', 'js/templates.js', 'js/app/common.js', 'js/main.app.js', 'js/bootstrap.js']);
+nQ.loadScripts(['js/jquery.js', 'js/underscore.js', 'js/backbone.js', 'js/backbone.marionette.js', 'js/templates.js', 'js/app/common.js', 'js/main.app.js', 'js/jade-runtime.js', 'js/bootstrap.js']);
 
 console.log("done start");
 

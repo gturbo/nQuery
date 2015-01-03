@@ -201,7 +201,7 @@
   // triggering events. Tries to keep the usual cases speedy (most internal
   // Backbone events have 3 arguments).
   var triggerEvents = function(events, args) {
-    console.log(this, 'events', events, 'args', args);
+    //console.log(this, 'events', events, 'args', args);
     var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
     switch (args.length) {
       case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;

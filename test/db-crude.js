@@ -38,10 +38,10 @@ describe('test crud persistence', function () {
     });
     it('should return collections', function (done) {
         var batch = db.batch();
-        for (var i=0;i<10;i++) {
-            batch.put(db.getKey('a', i), '{"id":' + i +'}');
+        for (var i = 0; i < 10; i++) {
+            batch.put(db.getKey('a', i), '{"id":' + i + '}');
         }
-        batch.write(function(err) {
+        batch.write(function (err) {
             if (err)
                 done(err);
             else {
@@ -49,7 +49,7 @@ describe('test crud persistence', function () {
                     .get('/db/a')
                     .expect(200)
                     .expect(function (res) {
-                        console.log(res.text +'\n');
+                        console.log(res.text + '\n');
                         var objs = JSON.parse(res.text);
                         objs.should.be.an.Array;
                         (objs.length).should.equal(10);
@@ -64,7 +64,18 @@ describe('test crud persistence', function () {
             .expect(200)
             .end(done);
     });
-    it('should not be avail, able once deleted', function (done) {
+    it('should be deletable with id in body', function (done) {
+        request(app)
+            .delete('/db/a')
+            .send({"id": 1})
+            .expect(200)
+            .end(function () {
+                request(app).get('/db/a/1')
+                    .expect(404)
+                    .end(done);
+            });
+    });
+    it('should not be available once deleted', function (done) {
         request(app)
             .get('/db/test/' + id)
             .expect(404)

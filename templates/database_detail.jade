@@ -1,1 +1,14 @@
-h1 DATABASE DETAIL !{id}
+h1 DATABASE DETAIL
+    small !{id ? id : ''}
+br
+br
+form(data-toggle="validator" role="form")
+    .form-group
+        label(for="name" class="control-label") Name
+        input(type="text" class="form-control" id="name" placeholder="give a name to your database" required value=name)
+.btn-group
+    button(id='lnksave' class='btn btn-success')
+        i(class='glyphicon glyphicon-save glyphicon-white')
+        span  SAVE
+
+
