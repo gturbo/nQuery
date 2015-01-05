@@ -39,7 +39,7 @@ describe('test crud persistence', function () {
     it('should return collections', function (done) {
         var batch = db.batch();
         for (var i = 0; i < 10; i++) {
-            batch.put(db.getKey('a', i), '{"id":' + i + '}');
+            batch.put('a', i, {id: i})
         }
         batch.write(function (err) {
             if (err)

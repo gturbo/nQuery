@@ -6,10 +6,8 @@ var router = express.Router();
 router.get('/:type', function(req,res) {
     var type = req.param('type');
     var start = true;
-    db.createReadStream({
-        start     : type
-        , end       : type+db.end
-        , keys      : false
+    db.createColReadStream(type,{
+        keys        : false
         , values    : true
     }).on('data', function(data) {
         if (start) {
@@ -21,7 +19,7 @@ router.get('/:type', function(req,res) {
     }).on('end', function() {
         res.end(start ? '[]' : ']');
     }).on('error', function(err) {
-        console.log('error when retrieving collection ' + type + ' ' + err);
+        console.error('error when retrieving collection ' + type + ' ' + err);
     })
     ;
 });
@@ -32,7 +30,7 @@ router.get('/:type/:id', function (req, res) {
     if (!(type && id))
         res.status(400).send('unable to retrieve object for type:' + type + ' and id: ' + id);
     else {
-        db.get(db.getKey(type, id), function (err, obj) {
+        db.get(type, id, function (err, obj) {
             if (err)
                 res.status(404).send('unable to retrieve object for type:' + type + ' and id: ' + id + ' error: ' + err);
             else {
@@ -58,7 +56,7 @@ router.put('/:type/:id?', function (req, res) {
         res.status(400).send('unable to store ' + type + ' object for wrong id:' + id);
         return;
     }
-    db.put(db.getKey(type, id), JSON.stringify(body),function (err) {
+    db.put(type, id, body,function (err) {
         if (err)
             res.status(500).send('unable to save object for type:' + type + ' and id: ' + id);
         else
@@ -73,12 +71,8 @@ router.post('/:type', function (req, res) {
         res.status(400).send('unable to store object for unknown type:' + type + ' or invalid content: ', body);
         return;
     }
-    var id = body.id, hasId = id;
-    if (!hasId) {
-        id = db.getId();
-        body.id=id;
-    }
-    db.put(db.getKey(type, id), JSON.stringify(body),function (err) {
+    var id = body.id, hasId = id || id === 0;
+    db.put(type, id, body,function (err, id) {
         if (err)
             res.status(500).send('unable to save object for type:' + type + ' and id: ' + id);
         else
@@ -94,7 +88,7 @@ router.delete('/:type/:id?', function (req, res) {
     if (!(type && id))
         res.status(404).send('unable to delete object for type:' + type + ' and id: ' + id);
     else {
-        db.del(db.getKey(type, id), function (err, obj) {
+        db.del(type, id, function (err) {
             if (err)
                 res.status(404).send('unable to delete object for type:' + type + ' and id: ' + id);
             else

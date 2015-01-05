@@ -21,12 +21,12 @@ nQ.Router = Backbone.Router.extend({
         this.startModule(moduleName, function() {
             if (!_.any(routers[moduleName].handlers, function (handler) {
                     if (handler.route.test(tail)) {
-                        try {
+ //                       try {
                             handler.callback(tail);
-                        } catch (err) {
+ /*                       } catch (err) {
                             console.log('error in subrouter', moduleName ,'for url', tail, err);
                         }
-                        return true;
+ */                       return true;
                     }
                 }))
                 console.log('WARNING unable to match route', tail, 'for module', moduleName);
