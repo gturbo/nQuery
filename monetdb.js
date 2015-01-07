@@ -1,18 +1,12 @@
-var conf = require('config');
-var util = require('util');
+var conf = require('config');var util = require('util');
 var monetdb = require('monetdb');
+var metaDb = require('db');
+var Backbone = require('public/js/')
+var DB_COL = "database";
 
-var express = require('express');
-var router = module.exports = express.Router();
-var metaDb = require('../database');
-
-
-function error(res, err) {
+function errorHandler(err) {
     if (err) {
         console.log(err);
-        if (res) {
-            res.status(400).send(err);
-        }
     }
     return (!err);
 }
@@ -31,7 +25,7 @@ router.get('/test-con/:dbId', function (req, res) {
     };
     var conn;
     conn = monetdb.connect(options, function (err) {
-        if (error(res, err)) {
+        if (errorHandler(err)) {
             conn.query('select k.id, t.name as "table", k.name, k.rkey, k."action" ' +
                 'from sys.keys k ' +
                 'left join sys.tables t on k.table_id = t.id',

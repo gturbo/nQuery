@@ -28,7 +28,6 @@ app.disable('x-powered-by');
 
 app.use('/', routes);
 app.use('/db', db);
-app.use('/monetdb', monetdb);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
