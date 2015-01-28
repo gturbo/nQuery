@@ -1,8 +1,10 @@
-var conf = require('config');var util = require('util');
-var monetdb = require('monetdb');
+var conf = require('config');var util = require('util')
+var monetdb = require('monetdb')
 var metaDb = require('db');
+var _ = require('underscore-node.js')
 var Backbone = require('public/js/')
 var DB_COL = "database";
+var models = require('public/shared/db-models')
 
 function errorHandler(err) {
     if (err) {
@@ -10,12 +12,48 @@ function errorHandler(err) {
     }
     return (!err);
 }
+var Column = models.Column
+
+var Columns = models.Columns
+
+var Table = models.Table
+
+var Tables = models.Tables
 
 
+var MonetDB = Backbone.Model.extend(_.extend(models.DatabaseExtend,{
+    initialyze: function() {
 
-router.get('/test-con/:dbId', function (req, res) {
+    }
+    ,url: "database"
+    ,connect: function(done) {
+        if (this.connection)
+            done(this.connection)
+        else {
+            this.connection = monetdb.connect(done);
+        }
+    }
+    ,disconnect: function(done) {
+        if (this.connection) {
+            this.connection.disconnect(done);
+        } else
+            done()
+        delete this.connection;
+    }
+    ,query: function(sql, done) {
+        this.connect(function(err) {
+            if (err) {
+                console.log("error connecting to database")
+            }
+        }).query()
+    }
+}))
 
-    metaDb.get()
+
+module.exports = {
+
+    metaDb.get(id)
+    ,models: models
     var options = {
         host: 'localhost',
         port: 50000,
@@ -39,5 +77,11 @@ router.get('/test-con/:dbId', function (req, res) {
         }
 
     })
-});
+
+    connect: function(db) {
+
+    }
+
+
+}
 

@@ -21,6 +21,10 @@
     var push = array.push;
     var slice = array.slice;
     var splice = array.splice;
+    var objectifyOtions = {stringify:1}
+    var objectify = function(memo, val, key) {
+        return memo[key] = (val.toJson && typeof val.toJson == 'function') ? val.toJSON(objectifyOtions) : val;
+    };
 
     // Current version of the library. Keep in sync with `package.json`.
     Backbone.VERSION = '1.1.2';
@@ -228,7 +232,7 @@
 
         // Return a copy of the model's `attributes` object.
         toJSON: function (options) {
-            return _.clone(this.attributes);
+            return _.reduce(this.attributes, objectify, {});
         },
 
         // Proxy `Backbone.sync` by default -- but override this if you need
